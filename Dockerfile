@@ -7,4 +7,4 @@ COPY . .
 RUN npm run stylesheets
 RUN node_modules/.bin/webpack
 EXPOSE 5000
-CMD ["npm", "run", "server"]
+CMD npm run server
