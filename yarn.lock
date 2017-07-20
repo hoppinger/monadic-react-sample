@@ -3325,9 +3325,9 @@ moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
-monadic_react@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/monadic_react/-/monadic_react-1.0.7.tgz#6bc1ea33374d985f6b1d9a9a1a2ef06ad48b58f3"
+monadic_react@^1.0.12:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/monadic_react/-/monadic_react-1.0.13.tgz#2f5e9c412ca96cea2462f4583710d11ada171a9b"
   dependencies:
     "@types/draft-js" "^0.9.1"
     "@types/i18next" "^2.3.35"

@@ -12,9 +12,9 @@ type FictionalPage = { title:string, content:string }
 
 export let menu_sample : C<void> =
   simple_menu<FictionalPage, string>("side menu", p => p.title, `fictional pages menu`)(
-    List<MenuEntry<FictionalPage>>([
+    [
       { title:"About", content:"This page talks about us"},
       { title:"Content", content:"This page is full of interesting content"}
-    ].map<MenuEntry<FictionalPage>>(s => ({ kind:"item", value:s}))),
+    ].map<MenuEntry<FictionalPage>>(s => ({ kind:"item", value:s})),
     p => string("view")(p.content)
   ).ignore()

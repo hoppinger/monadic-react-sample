@@ -12,8 +12,8 @@ type FictionalPage = { title:string, content:string }
 
 export let tabbed_menu_sample : C<void> =
   simple_menu<FictionalPage, string>({kind:"tabs",max_tabs:5}, p => p.title, `tabbed menu`)(
-    List<MenuEntry<FictionalPage>>(Range(1, 10).map(i =>
+    Range(1, 10).map(i =>
       ({ title:`Tab ${i}`, content:`This is the content of the tab ${i}.`})
-    ).map<MenuEntry<FictionalPage>>(s => ({ kind:"item", value:s})).toArray()),
+    ).map<MenuEntry<FictionalPage>>(s => ({ kind:"item", value:s})).toArray(),
     p => string("view")(p.content)
   ).ignore()

@@ -101,7 +101,7 @@ export function HomePage(slug:string) : JSX.Element {
   let menu_page = () : Route<{}> => ({
     url: fallback_url(),
     page:
-        (_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(List<MenuEntry<Sample>>(all_samples),
+        (_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples,
           s => {
             let e = all_samples.find(e => e.children.findIndex(s1 => s1.value == s) != -1)
             return sample_minipage(e)(s)
@@ -110,7 +110,7 @@ export function HomePage(slug:string) : JSX.Element {
 
   let sample_route : (e:MenuEntrySubMenu<Sample>, _:Sample) => Route<{}> = (e,s) => ({
     url: make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")]),
-    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(List<MenuEntry<Sample>>(all_samples), sample_minipage(e), s, e.label)
+    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage(e), s, e.label)
   })
 
   let all_menu_routes = Array<Route<{}>>().concat(...all_samples.map(s => s.children.map(c => sample_route(s, c.value))))
@@ -119,7 +119,7 @@ export function HomePage(slug:string) : JSX.Element {
       {
         <div className="component">
           {
-            application("edit", window.location.href.replace(slug, ""), slug, Immutable.List<Route<{}>>(
+            application("edit", window.location.href.replace(slug, ""), slug,
               all_menu_routes.concat(
               [
                 xxx(),
@@ -127,7 +127,7 @@ export function HomePage(slug:string) : JSX.Element {
                 zzz(),
                 zzz_xxx(),
                 menu_page()
-              ])))
+              ]))
           }
         </div>
       }
