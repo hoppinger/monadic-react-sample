@@ -27,7 +27,6 @@ import {link_sample} from './samples/link'
 import {overlay_sample} from './samples/overlay'
 import {context_sample} from './samples/context'
 
-
 type Sample = { sample:C<void>, description:string }
 type MiniPage = { visible:boolean, page:C<void> }
 export let sample_toggleable_minipage : (_:Sample) => C<void> = s =>
@@ -57,7 +56,7 @@ export function HomePage(slug:string) : JSX.Element {
         mk_menu_entry({ sample: selector_sample, description:"selector" }),
         mk_menu_entry({ sample: multiselector_sample, description:"multi-selector" }),
         mk_menu_entry({ sample: moments_sample, description:"dates and times" }),
-        mk_menu_entry({ sample: toggles_sample, description:"coordinated toggles" })
+        mk_menu_entry({ sample: toggles_sample, description:"coordinated toggles" }),
       ]),
       mk_submenu_entry("lists", [
         mk_menu_entry({ sample: list_sample, description:"list" }),
@@ -72,6 +71,12 @@ export function HomePage(slug:string) : JSX.Element {
         mk_menu_entry({ sample: context_sample, description:"context management" }),
         mk_menu_entry({ sample: overlay_sample, description:"overlay" }),
       ]),
+      // mk_submenu_entry("controls", [
+      //   mk_menu_entry({ sample: link_sample, description:"links" }),
+      //   mk_menu_entry({ sample: label_sample, description:"label" }),
+      //   mk_menu_entry({ sample: button_sample, description:"button" }),
+      //   mk_menu_entry({ sample: rich_text_sample, description:"rich text" }),
+      // ])
     ]
 
   let xxx = () : Route<{}> => ({
@@ -113,7 +118,14 @@ export function HomePage(slug:string) : JSX.Element {
     page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage(e), s, e.label)
   })
 
-  let all_menu_routes = Array<Route<{}>>().concat(...all_samples.map(s => s.children.map(c => sample_route(s, c.value))))
+  let submenu_route : (e:MenuEntrySubMenu<Sample>) => Route<{}> = (e) => ({
+    url: make_url<{}, never>([e.label.replace(/\s/g, "_")]),
+    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage(e), undefined, e.label)
+  })
+
+  let all_menu_routes = Array<Route<{}>>()
+    .concat(...all_samples.map(s => s.children.map(c => sample_route(s, c.value))))
+    .concat(all_samples.map(s => submenu_route(s)))
 
   return <div>
       {
