@@ -32,15 +32,15 @@ type MiniPage = { visible:boolean, page:C<void> }
 export let sample_toggleable_minipage : (_:Sample) => C<void> = s =>
   repeat<boolean>()(
     div<boolean, boolean>("monadic-title-preview")(
-    label<boolean, boolean>(s.description, false)(bool("edit", "plus/minus"))))(false).bind(`${s.description} toggle`, visible =>
+    label<boolean, boolean>(s.description, false)(bool("edit", "plus/minus"))))(false).then(`${s.description} toggle`, visible =>
     !visible ?
       unit<void>(null)
     :
-      s.sample.bind(`visible ${s.description}`, _ => unit<void>(null)))
+      s.sample.then(`visible ${s.description}`, _ => unit<void>(null)))
 
 let sample_minipage : (e:MenuEntrySubMenu<Sample>) => ((_:Sample) => C<void>) = e => s =>
-  get_context().bind(s.description, c =>
-  c.set_url({}, make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")])).bind(`${s.description}_set_url`, _ =>
+  get_context().then(s.description, c =>
+  c.set_url({}, make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")])).then(`${s.description}_set_url`, _ =>
   h2<void, void>(s.description, "", s.description)(_ => s.sample)(null)))
 
 export function HomePage(slug:string) : JSX.Element {

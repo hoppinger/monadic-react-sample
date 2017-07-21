@@ -28,7 +28,7 @@
     "jquery": "^2.2.2",
     "jquery-ujs": "^1.2.1",
     "moment": "^2.18.1",
-    "monadic_react": "^1.0.12",
+    "monadic_react": "^1.0.15",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "whatwg-fetch": "^2.0.2"
