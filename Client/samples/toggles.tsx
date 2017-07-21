@@ -15,7 +15,7 @@ export let toggles_sample : C<void> =
         bool("edit", "checkbox", `basic toggle`)(b)),
       label<boolean, boolean>("my fancy toggle.")(b =>
         bool("edit", "fancy toggle", `fancy toggle`)(b)),
-      label<boolean, boolean>("The last toggle: ")(b =>
-        bool("edit", "plus/minus", `a plus/minus toggle.`)(b)),
+      // label<boolean, boolean>("The last toggle: ")(b =>
+      //   bool("edit", "plus/minus", `a plus/minus toggle.`)(b)),
     ])(b))(true).then(`fancy_toggle_bind`, c =>
   string("view")(`Your selection is ${c.toString()}`).ignore())
