@@ -10,7 +10,8 @@
     "npm": "3.5.0"
   },
   "scripts": {
-    "server": "./node_modules/.bin/nodemon app.js",
+    "server-dev": "./node_modules/.bin/nodemon app.js",
+    "server": "node app.js",
     "webpack": "./node_modules/.bin/webpack -w",
     "stylesheets": "./node_modules/.bin/gulp"
   },
