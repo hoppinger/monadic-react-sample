@@ -132,6 +132,7 @@ export function HomePage(slug:string) : JSX.Element {
         <div className="component">
           {
             application("edit", window.location.href.replace(slug, ""), slug,
+              () => Promise.resolve(
               all_menu_routes.concat(
               [
                 xxx(),
@@ -139,7 +140,7 @@ export function HomePage(slug:string) : JSX.Element {
                 zzz(),
                 zzz_xxx(),
                 menu_page()
-              ]))
+              ])))
           }
         </div>
       }
