@@ -3325,9 +3325,9 @@ moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
-monadic_react@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/monadic_react/-/monadic_react-1.0.18.tgz#bd585ccc0e731e2e5afa6015fefc0f4d54015336"
+monadic_react@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/monadic_react/-/monadic_react-1.0.24.tgz#2e5537f3fd39a8b78a895223ed558e31a6fa4caa"
   dependencies:
     "@types/draft-js" "^0.9.1"
     "@types/i18next" "^2.3.35"
@@ -3343,6 +3343,7 @@ monadic_react@^1.0.18:
     moment "^2.18.1"
     react "^15.6.1"
     react-dom "^15.6.1"
+    slugify "^1.1.0"
     whatwg-fetch "^2.0.2"
 
 ms@2.0.0:
@@ -4307,6 +4308,10 @@ slash@^1.0.0:
 slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
+
+slugify@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.1.0.tgz#7e5b0938d52b5efab1878247ef0f6a4f05db7ee0"
 
 sntp@1.x.x:
   version "1.0.9"
