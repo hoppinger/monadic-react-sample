@@ -3,11 +3,13 @@
     "compilerOptions": {
         "outDir": "./obj/js",
         "sourceMap": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
         "noImplicitAny": false,
         "module": "commonjs",
         "target": "es6",
         "jsx": "react"
-    }, 
+    },
      "include": [
       "./Client/**/*.ts",
       "./Client/**/*.tsx"

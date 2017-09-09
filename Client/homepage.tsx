@@ -11,6 +11,8 @@ custom, repeat, all, any, lift_promise, retract, delay,
 simple_menu, mk_menu_entry, mk_submenu_entry, MenuEntry, MenuEntryValue, MenuEntrySubMenu,
 rich_text, paginate, Page, list, editable_list} from 'monadic_react'
 
+import * as MonadicReact from 'monadic_react'
+
 import {button_sample} from './samples/button'
 import {label_sample} from './samples/label'
 import {selector_sample} from './samples/selector_and_custom_class'
@@ -28,20 +30,6 @@ import {overlay_sample} from './samples/overlay'
 import {context_sample} from './samples/context'
 
 type Sample = { sample:C<void>, description:string }
-type MiniPage = { visible:boolean, page:C<void> }
-export let sample_toggleable_minipage : (_:Sample) => C<void> = s =>
-  repeat<boolean>()(
-    div<boolean, boolean>("monadic-title-preview")(
-    label<boolean, boolean>(s.description, false)(bool("edit", "plus/minus"))))(false).then(`${s.description} toggle`, visible =>
-    !visible ?
-      unit<void>(null)
-    :
-      s.sample.then(`visible ${s.description}`, _ => unit<void>(null)))
-
-let sample_minipage : (e:MenuEntrySubMenu<Sample>) => ((_:Sample) => C<void>) = e => s =>
-  get_context().then(s.description, c =>
-  c.set_url({}, make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")])).then(`${s.description}_set_url`, _ =>
-  h2<void, void>(s.description, "", s.description)(_ => s.sample)(null)))
 
 export function HomePage(slug:string) : JSX.Element {
   let all_samples : Array<MenuEntrySubMenu<Sample>> =
@@ -79,48 +67,48 @@ export function HomePage(slug:string) : JSX.Element {
       // ])
     ]
 
-  let xxx = () : Route<{}> => ({
-    url: make_url<{}, never>(["xxx"]),
+type Mode = "edit" | "view"
+type EditToggleState = { mode:Mode, text:string }
+  let edit_toggle = () : Route<{}> => ({
+    url: make_url<{}, never>(["edit_toggle_sample"]),
     page:_ =>
-      any<void, void>(`xxx`)([
-      _ => string("view")("xxx").never<void>(),
-      _ => link_to_route<{}>("YYY", {}, yyy())
-    ])(null) })
+repeat<EditToggleState>("edit toggle sample")(
+  any<EditToggleState, EditToggleState>()([
+  retract<EditToggleState, Mode>()(s => s.mode, s => m => ({...s, mode:m}),
+    mode => button<Mode>("Toggle editing")(mode == "view" ? "edit" : "view")
+  ),
+  state =>
+    retract<EditToggleState, string>()(s => s.text, s => t => ({...s, text:t}),
+      rich_text(state.mode)
+    )(state)
+  ])
+)({ mode:"edit", text:"" }).ignore()
+    })
 
-  let yyy = () : Route<{}> => ({
-    url: make_url<{}, never>(["yyy"]),
-    page: _ => string("view")("yyy").ignore()
-  })
-
-  type X = { x:number, y:number }
-  let zzz = () : Route<X> => ({
-    url: make_url<X, "x" | "y">(["zzz", { kind:"int", name:"x" }, { kind:"int", name:"y" }]),
-    page: (x:X) => string("view")(`zzz ${(x.x + x.y).toString()}`).ignore()
-  })
-
-  let zzz_xxx = () : Route<X> => ({
-    url: make_url<X, "x">(["zzz", { kind:"int", name:"x" }, "xxx"]),
-    page: (x:X) => string("view")(`zzz ${x.x} xxx`).ignore()
-  })
+  let sample_minipage : ((_:Sample) => C<void>) = s =>
+    get_context().then(s.description, c => {
+    let e = all_samples.find(e => e.children.findIndex(s1 => s1.value.description == s.description) != -1)
+    return c.set_url({}, make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")])).then(`${s.description}_set_url`, _ =>
+    h2<void, void>(s.description, "", s.description)(_ => s.sample)(null))
+    })
 
   let menu_page = () : Route<{}> => ({
     url: fallback_url(),
     page:
         (_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples,
           s => {
-            let e = all_samples.find(e => e.children.findIndex(s1 => s1.value == s) != -1)
-            return sample_minipage(e)(s)
+            return sample_minipage(s)
           })
   })
 
   let sample_route : (e:MenuEntrySubMenu<Sample>, _:Sample) => Route<{}> = (e,s) => ({
     url: make_url<{}, never>([e.label.replace(/\s/g, "_"), s.description.replace(/\s/g, "_")]),
-    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage(e), s, e.label)
+    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage, s, e.label)
   })
 
   let submenu_route : (e:MenuEntrySubMenu<Sample>) => Route<{}> = (e) => ({
     url: make_url<{}, never>([e.label.replace(/\s/g, "_")]),
-    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage(e), undefined, e.label)
+    page:(_:{}) => simple_menu<Sample, void>("side menu", s => s.description)(all_samples, sample_minipage, undefined, e.label)
   })
 
   let all_menu_routes = Array<Route<{}>>()
@@ -132,13 +120,9 @@ export function HomePage(slug:string) : JSX.Element {
         <div className="component">
           {
             application("edit", window.location.href.replace(slug, ""), slug,
-              () => Promise.resolve(
-              all_menu_routes.concat(
+              () => Promise.resolve(all_menu_routes.concat(
               [
-                xxx(),
-                yyy(),
-                zzz(),
-                zzz_xxx(),
+                edit_toggle(),
                 menu_page()
               ])))
           }

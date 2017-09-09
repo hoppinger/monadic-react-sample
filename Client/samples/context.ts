@@ -12,7 +12,7 @@ export let context_sample : C<void> =
   any<void, void>()([
     _ =>  button<void>(`Force reload`)(null).then(undefined, _ =>
           get_context().then(undefined, ctxt =>
-          ctxt.force_reload()))
+          ctxt.force_reload())),
   ])(null).then(`context sample`, _ =>
   get_context().then(undefined, ctxt =>
   string("view")(`Context: ${JSON.stringify(ctxt)}`).ignore()))
