@@ -1,7 +1,18 @@
 const express = require('express')
 const app = express()
 
-app.use( express.static('wwwroot'))
+app.use("/", express.static('wwwroot', {
+  setHeaders: function (res, path) {
+    // console.log(path)
+    if (path.endsWith("css"))
+      res.setHeader('Content-Type', 'text/css');
+    else if (path.endsWith("js"))
+      res.setHeader('Content-Type', 'text/javascript');
+    else
+      res.setHeader('Content-Type', 'text/html');
+    // console.log(res.get('Content-Type')); // 'text/html'
+  }
+}))
 
 // app.get('/css/site.css', function(req,res){
 //   res.sendFile(__dirname + '/css/site.min.css')
