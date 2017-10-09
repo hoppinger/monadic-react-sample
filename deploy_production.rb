@@ -45,7 +45,7 @@ on cluster_nodes, in: :parallel do |host|
 
     execute :cp, "repo/Dockerfile monadic_react/"
 
-    within 'repo' do
+    within 'monadic_react' do
       execute :docker, "build --force-rm -t #{image_tag} ."
     end
   end
