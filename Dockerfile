@@ -6,5 +6,6 @@ RUN yarn install --ignore-engines
 COPY . .
 RUN ./node_modules/.bin/webpack
 RUN ./node_modules/.bin/gulp
+WORKDIR /app/samples
 EXPOSE 5000
 CMD npm run server

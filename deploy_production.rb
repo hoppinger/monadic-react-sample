@@ -16,6 +16,8 @@ project_path = '~'
 project_name = 'monadic-react-prod'
 
 git_url = 'git@github.com:hoppinger/monadic-react-sample.git'
+mr_url = 'git@github.com:giuseppemag/MonadicReact.git'
+
 
 expose_to_port = '6300'
 
@@ -36,7 +38,12 @@ on cluster_nodes, in: :parallel do |host|
 
   within project_dir do
     execute :rm, '-rf repo'
+    execute :rm, '-rf monadic_react'
+
     execute :git, "clone #{git_url} repo"
+    execute :git, "clone #{mr_url} monadic_react"
+
+    execute :cp, "repo/Dockerfile monadic_react/"
 
     within 'repo' do
       execute :docker, "build --force-rm -t #{image_tag} ."
