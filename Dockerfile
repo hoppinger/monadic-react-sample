@@ -8,4 +8,4 @@ RUN ./node_modules/.bin/webpack
 RUN ./node_modules/.bin/gulp
 WORKDIR /app/samples
 EXPOSE 5000
-CMD npm run server
+CMD "../node_modules/.bin/nodemon app.js"
